@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title></title>
+    </head>
+    <body>
+        <form onsubmit="return vamos()">
+            <h1>Sete cliques</h1>
+            <p><label>Verbete de Origem: <input id="origem" required /></label></p>
+            <p><label>Verbete de Destino: <input id="destino" required /></label></p>
+            <button>Vamos!</button>
+        </form>
+        <script>
+            function vamos(){
+                localStorage['origem'] = document.querySelector('#origem').value
+                localStorage['destino'] = document.querySelector('#destino').value
+                localStorage['clicks'] = 8
+                location = '/wiki/' + localStorage['origem']
+                return false
+            }
+        </script>
+    </body>
+</html>

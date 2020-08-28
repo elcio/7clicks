@@ -1,0 +1,81 @@
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
+<link rel="stylesheet" href="https://classless.de/classless.css">
+<script>
+window.addEventListener('load', function(){
+    if(location.href.indexOf('/wiki/') == -1){
+        return false
+    }
+    let title = document.title.split(' – ')[0]
+    let clicks = parseFloat(localStorage['clicks']) - 1
+    let destino = localStorage['destino']
+    let placarclass = clicks < 0 ? 'perdeu': 'jogando'
+    if(title == destino){
+        placarclass += ' ganhou'
+    }
+    let topohtml = `
+    <header class="placar ${placarclass}">
+        <h1>${clicks} cliques rumo a: ${destino}</h1>
+    </header>
+    `
+    document.body.innerHTML = topohtml + document.body.innerHTML
+    document.querySelectorAll('a').forEach(a => {
+        if((a.getAttribute('href')+'').indexOf('/wiki/')==0){
+            a.classList.add('gamelink')
+        }else if((a.getAttribute('href')+'').indexOf('#')==0){
+            a.classList.add('hashlink')
+        }else {
+            a.addEventListener('click',(ev)=>{ev.preventDefault()})
+        }
+    })
+    localStorage['clicks'] = clicks
+})
+</script>
+<style>
+a {
+    color:#977;
+}
+a.gamelink{
+    color:blue;
+}
+a.hashlink{
+    color:green;
+}
+#mw-data-after-content,
+#mw-navigation,
+footer,
+.mw-dismissable-notice,
+.navbar {
+    display:none;
+}
+.tright, .infobox_v2 {
+    float:right;
+}
+@keyframes vitoria {
+    from {
+        margin-left:-10px;
+    }
+    to {
+        margin-left: 10px;
+    }
+}
+header.placar {
+    background: #CCF;
+    border-radius:10px;
+    padding:10px;
+    position:sticky;
+    top:0;
+}
+header.placar.ganhou {
+    background: #CFC;
+    animation-name: vitoria;
+    animation-duration: 0.3s;
+    animation-direction: alternate;
+    animation-iteration-count: 30;
+}
+header.placar.perdeu {
+    background: #FCC;
+}
+header.placar h1 {
+    margin-top:0;
+}
+</style>
